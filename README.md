@@ -32,9 +32,6 @@ C. ADAM Algorithm
 D. RMSPROP algorithm
 3. Examine the effect of the following changes:
 E. DROPOUT - check the effect of changing the probability (this is the parameter of DROPOUT) if there is a layer .DROPOUT
-F. Activate the STOPPING EARLY mechanism. Does the performance deteriorate beyond a certain EPOCHS number?
-The convergence graph of the training process should be presented for each of the sections including LOSS TRAIN and VALIDATION
-.VALIDATION ACCURACY -and TRAIN ACCURACY and, LOSS
 
 
 In this project, a database from the Kaggle website was used which contains 5,863 real X-rays of pneumonia patients and healthy people.
@@ -143,6 +140,530 @@ Accuracy of the model is -  90.38461446762085 %
 ![image](https://user-images.githubusercontent.com/105777016/178107171-3587d3d0-2817-4d3d-a010-2ab920c34eda.png)
 
 From the table  it can be seen that the highest harmonic mean (F1 -Score) is 0.8556825 and it occurs for a probability threshold level of 0.4 i.e. if we define any sample whose probability is positive (positive for pneumonia) will be above 0.4 we will get the best performance .
+
+# Q3
+
+I added one layer of different thickness at a time and with a fixed kernel ((3,3) for Conf2D and (2,2) for Max pool)
+Option 1: depth of convolution = 32
+
+
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_66 (Conv2D)           (None, 200, 200, 32)      320       
+_________________________________________________________________
+max_pooling2d_66 (MaxPooling (None, 100, 100, 32)      0         
+_________________________________________________________________
+conv2d_67 (Conv2D)           (None, 100, 100, 32)      9248      
+_________________________________________________________________
+max_pooling2d_67 (MaxPooling (None, 50, 50, 32)        0         
+_________________________________________________________________
+conv2d_68 (Conv2D)           (None, 50, 50, 32)        9248      
+_________________________________________________________________
+max_pooling2d_68 (MaxPooling (None, 25, 25, 32)        0         
+_________________________________________________________________
+conv2d_69 (Conv2D)           (None, 25, 25, 32)        9248      
+_________________________________________________________________
+max_pooling2d_69 (MaxPooling (None, 13, 13, 32)        0         
+_________________________________________________________________
+flatten_13 (Flatten)         (None, 5408)              0         
+_________________________________________________________________
+dense_26 (Dense)             (None, 128)               692352    
+_________________________________________________________________
+dense_27 (Dense)             (None, 1)                 129       
+=================================================================
+Total params: 720,545
+Trainable params: 720,545
+Non-trainable params: 0
+Loss of the model is -  0.27853989601135254
+20/20 [==============================] - 1s 30ms/step - loss: 0.2785 - accuracy: 0.9087 - recall: 0.8200 - precision: 0.8245Accuracy of the model is -  90.86538553237915 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107218-6ff3c9a0-77b6-4983-a28c-6bb9c231971b.png)
+
+From the accuracy graph it can be seen that starting from the 11th iteration there is a regularity and in the 15th iteration there is a fall.
+From the loss graph it can be seen that there are fluctuations that activate the learning rate reduction mechanism. In any case the accuracy of the system remains around 90 percent.
+
+
+Option 2: addition of 64
+20/20 [==============================] - 1s 23ms/step - loss: 0.2692 - accuracy: 0.8798 - recall: 0.8300 - precision: 0.8336
+Loss of the model is -  0.2692185044288635
+20/20 [==============================] - 0s 23ms/step - loss: 0.2692 - accuracy: 0.8798 - recall: 0.8295 - precision: 0.8340
+Accuracy of the model is -  87.9807710647583 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107234-8121ce14-828b-4223-9cef-43a571b785c7.png)
+
+From the accuracy graph it can be seen that starting from the 11th iteration there is a regularity and in the 10th iteration there is a fall.
+From the loss graph it can be seen that there are fluctuations that activate the learning rate reduction mechanism.
+In any case the accuracy of the system remains around 90 percent.
+
+Option 3: addition of 128
+20/20 [==============================] - 3s 101ms/step - loss: 0.4191 - accuracy: 0.8349 - recall: 0.8096 - precision: 0.8148
+Loss of the model is -  0.41905343532562256
+20/20 [==============================] - 2s 103ms/step - loss: 0.4191 - accuracy: 0.8349 - recall: 0.8078 - precision: 0.8155
+Accuracy of the model is -  83.49359035491943 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107248-dded2a53-789d-42bd-924b-2751ea737a20.png)
+
+From the accuracy graph it can be seen that starting from the 10th iteration there is a regularity and in the 12th iteration there is a fall.
+From the loss graph it can be seen that there are fluctuations that activate the learning rate reduction mechanism. In any case the accuracy of the system remains around 90 percent.
+A final conclusion that adding the convolution depth of 32 resulted in the best accuracy improvement of 90.8% so we will use this method.
+
+
+
+3.1.2) Addition of 2 layers
+Option 1: addition of two 32 layers
+20/20 [==============================] - 1s 30ms/step - loss: 0.2069 - accuracy: 0.9199 - recall: 0.7988 - precision: 0.8079
+Loss of the model is -  0.2068600356578827
+20/20 [==============================] - 1s 27ms/step - loss: 0.2069 - accuracy: 0.9199 - recall: 0.7991 - precision: 0.8090
+Accuracy of the model is -  91.98718070983887 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107279-5bec4378-8752-4d2a-aeb4-bfbea872dd0b.png)
+
+From the accuracy graph it can be seen that starting from the 11th iteration there is a regularity and in the 12th iteration there is a fall.
+From the loss graph it can be seen that there are fluctuations that activate the learning rate reduction mechanism. In any case the accuracy of the system remains around 90 percent.
+
+
+
+
+Option 2: addition of two 64 layers
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_4 (Conv2D)            (None, 200, 200, 32)      320       
+_________________________________________________________________
+max_pooling2d_4 (MaxPooling2 (None, 100, 100, 32)      0         
+_________________________________________________________________
+conv2d_5 (Conv2D)            (None, 100, 100, 32)      9248      
+_________________________________________________________________
+max_pooling2d_5 (MaxPooling2 (None, 50, 50, 32)        0         
+_________________________________________________________________
+conv2d_6 (Conv2D)            (None, 50, 50, 32)        9248      
+_________________________________________________________________
+max_pooling2d_6 (MaxPooling2 (None, 25, 25, 32)        0         
+_________________________________________________________________
+conv2d_7 (Conv2D)            (None, 25, 25, 32)        9248      
+_________________________________________________________________
+max_pooling2d_7 (MaxPooling2 (None, 13, 13, 32)        0         
+_________________________________________________________________
+conv2d_8 (Conv2D)            (None, 13, 13, 64)        18496     
+_________________________________________________________________
+max_pooling2d_8 (MaxPooling2 (None, 7, 7, 64)          0         
+_________________________________________________________________
+conv2d_9 (Conv2D)            (None, 7, 7, 64)          36928     
+_________________________________________________________________
+max_pooling2d_9 (MaxPooling2 (None, 4, 4, 64)          0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 1024)              0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 128)               131200    
+_________________________________________________________________
+dense_3 (Dense)              (None, 1)                 129       
+=================================================================
+Total params: 214,817
+Trainable params: 214,817
+Non-trainable params: 0
+Loss of the model is -  0.2688480317592621
+20/20 [==============================] - 0s 15ms/step - loss: 0.2688 - accuracy: 0.9006 - recall: 0.8014 - precision: 0.8103
+Accuracy of the model is -  90.06410241127014 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107298-44da6438-0ae6-4f87-b864-b49431432e9f.png)
+
+From the accuracy graph it can be seen that starting from the 11th iteration there is a regularity and in the 15th iteration there is a fall.
+From the loss graph it can be seen that there are fluctuations that activate the learning rate reduction mechanism. In any case the accuracy of the system remains around 90 percent.
+
+
+Option 3: one layer of 32 and one of 64
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d (Conv2D)              (None, 200, 200, 32)      320       
+_________________________________________________________________
+max_pooling2d (MaxPooling2D) (None, 100, 100, 32)      0         
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 100, 100, 32)      9248      
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 50, 50, 32)        0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 50, 50, 32)        9248      
+_________________________________________________________________
+max_pooling2d_2 (MaxPooling2 (None, 25, 25, 32)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 25, 25, 32)        9248      
+_________________________________________________________________
+max_pooling2d_3 (MaxPooling2 (None, 13, 13, 32)        0         
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 13, 13, 32)        9248      
+_________________________________________________________________
+max_pooling2d_4 (MaxPooling2 (None, 7, 7, 32)          0         
+_________________________________________________________________
+conv2d_5 (Conv2D)            (None, 7, 7, 64)          18496     
+_________________________________________________________________
+max_pooling2d_5 (MaxPooling2 (None, 4, 4, 64)          0         
+_________________________________________________________________
+flatten (Flatten)            (None, 1024)              0         
+_________________________________________________________________
+dense (Dense)                (None, 128)               131200    
+_________________________________________________________________
+dense_1 (Dense)              (None, 1)                 129       
+=================================================================
+Total params: 187,137
+Trainable params: 187,137
+Non-trainable params: 0
+Loss of the model is -  0.36978185176849365
+20/20 [==============================] - 1s 28ms/step - loss: 0.3698 - accuracy: 0.8638 - recall: 0.8042 - precision: 0.8135
+Accuracy of the model is -  86.37820482254028 %
+
+
+![image](https://user-images.githubusercontent.com/105777016/178107320-44ee2ade-6b65-4522-a261-8d570d740288.png)
+
+From the accuracy graph it can be seen that starting from the 11th iteration there is a regularity and in the 14th iteration there is a fall.
+From the loss graph it can be seen that there are fluctuations that activate the learning rate reduction mechanism. In any case the accuracy of the system remains around 90 percent.
+
+Option 4: one layer of 64 and 128
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_10 (Conv2D)           (None, 200, 200, 32)      320       
+_________________________________________________________________
+max_pooling2d_10 (MaxPooling (None, 100, 100, 32)      0         
+_________________________________________________________________
+conv2d_11 (Conv2D)           (None, 100, 100, 32)      9248      
+_________________________________________________________________
+max_pooling2d_11 (MaxPooling (None, 50, 50, 32)        0         
+_________________________________________________________________
+conv2d_12 (Conv2D)           (None, 50, 50, 32)        9248      
+_________________________________________________________________
+max_pooling2d_12 (MaxPooling (None, 25, 25, 32)        0         
+_________________________________________________________________
+conv2d_13 (Conv2D)           (None, 25, 25, 32)        9248      
+_________________________________________________________________
+max_pooling2d_13 (MaxPooling (None, 13, 13, 32)        0         
+_________________________________________________________________
+conv2d_14 (Conv2D)           (None, 13, 13, 64)        18496     
+_________________________________________________________________
+max_pooling2d_14 (MaxPooling (None, 7, 7, 64)          0         
+_________________________________________________________________
+conv2d_15 (Conv2D)           (None, 7, 7, 128)         73856     
+_________________________________________________________________
+max_pooling2d_15 (MaxPooling (None, 4, 4, 128)         0         
+_________________________________________________________________
+flatten_2 (Flatten)          (None, 2048)              0         
+_________________________________________________________________
+dense_4 (Dense)              (None, 128)               262272    
+_________________________________________________________________
+dense_5 (Dense)              (None, 1)                 129       
+=================================================================
+Total params: 382,817
+Trainable params: 382,817
+Non-trainable params: 0
+Loss of the model is -  0.3012300729751587
+20/20 [==============================] - 0s 14ms/step - loss: 0.3012 - accuracy: 0.8910 - recall: 0.8065 - precision: 0.8157
+Accuracy of the model is -  89.10256624221802 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107330-a681ec80-303a-417d-af71-7513dc6d4eb6.png)
+
+From the accuracy graph it can be seen that starting from the 11th iteration there is a regularity and in the 14th iteration there is a fall.
+From the loss graph it can be seen that there are fluctuations that activate the learning rate reduction mechanism. In any case the accuracy of the system remains around 90 percent.
+
+
+3.1.3): Five changes in depth of the layers / number of kernels of the convolution:
+Option 1: reducing the kernels of the convolution to (2X2)
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_10 (Conv2D)           (None, 200, 200, 32)      320       
+_________________________________________________________________
+max_pooling2d_10 (MaxPooling (None, 100, 100, 32)      0         
+_________________________________________________________________
+conv2d_11 (Conv2D)           (None, 100, 100, 32)      9248      
+_________________________________________________________________
+max_pooling2d_11 (MaxPooling (None, 50, 50, 32)        0         
+_________________________________________________________________
+conv2d_12 (Conv2D)           (None, 50, 50, 32)        9248      
+_________________________________________________________________
+max_pooling2d_12 (MaxPooling (None, 25, 25, 32)        0         
+_________________________________________________________________
+conv2d_13 (Conv2D)           (None, 25, 25, 32)        9248      
+_________________________________________________________________
+max_pooling2d_13 (MaxPooling (None, 13, 13, 32)        0         
+_________________________________________________________________
+conv2d_14 (Conv2D)           (None, 13, 13, 32)        4128      
+_________________________________________________________________
+max_pooling2d_14 (MaxPooling (None, 7, 7, 32)          0         
+_________________________________________________________________
+conv2d_15 (Conv2D)           (None, 7, 7, 32)          4128      
+_________________________________________________________________
+max_pooling2d_15 (MaxPooling (None, 4, 4, 32)          0         
+_________________________________________________________________
+conv2d_16 (Conv2D)           (None, 4, 4, 32)          4128      
+_________________________________________________________________
+max_pooling2d_16 (MaxPooling (None, 2, 2, 32)          0         
+_________________________________________________________________
+conv2d_17 (Conv2D)           (None, 2, 2, 32)          4128      
+_________________________________________________________________
+max_pooling2d_17 (MaxPooling (None, 1, 1, 32)          0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 32)                0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 128)               4224      
+_________________________________________________________________
+dense_3 (Dense)              (None, 1)                 129       
+=================================================================
+
+
+
+
+
+
+
+
+
+
+Total params: 48,929
+Trainable params: 48,929
+Non-trainable params: 0
+Loss of the model is -  0.2754925787448883
+20/20 [==============================] - 1s 27ms/step - loss: 0.2755 - accuracy: 0.8910 - recall: 0.7731 - precision: 0.7936
+Accuracy of the model is -  89.10256624221802 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107350-0f08762e-b351-4c9d-9c38-e07ca010d399.png)
+
+
+Option 2: reducing the kernels of the convolution to (4X4)
+Loss of the model is -  0.25276684761047363
+20/20 [==============================] - 1s 30ms/step - loss: 0.2528 - accuracy: 0.9119 - recall: 0.7889 - precision: 0.8016
+Accuracy of the model is -  91.18589758872986 %
+
+
+![image](https://user-images.githubusercontent.com/105777016/178107361-f40152c0-8031-4904-8609-efed2428e046.png)
+
+
+
+Option 3: Reducing dense layer to 32
+Loss of the model is -  0.28824353218078613
+20/20 [==============================] - 1s 29ms/step - loss: 0.2882 - accuracy: 0.9103 - recall: 0.8130 - precision: 0.8261
+Accuracy of the model is -  91.02563858032227 %
+
+
+![image](https://user-images.githubusercontent.com/105777016/178107369-a685e363-3bbd-4298-a8ef-1d101c096716.png)
+
+
+Option 4: Layers depth are doubled 
+Loss of the model is -  0.284391850233078
+20/20 [==============================] - 1s 28ms/step - loss: 0.2844 - accuracy: 0.9151 - recall: 0.7903 - precision: 0.8094
+Accuracy of the model is -  91.50640964508057 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107376-af531493-7845-4cfa-8fbb-3d41bb76cf90.png)
+
+
+Option 5: Increasing kernels on each layer
+Loss of the model is -  0.4851168096065521
+20/20 [==============================] - 6s 309ms/step - loss: 0.4851 - accuracy: 0.8349 - recall: 0.7777 - precision: 0.7963
+Accuracy of the model is -  83.49359035491943 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107385-85e4d1f9-b773-4318-b116-a187e7df3510.png)
+
+It can be seen from this section that option 4 (option 4) resulted in the best performance, so doubling the amount of layers is recommended for optimizing the algorithm.
+
+
+
+3.2.1) SGD 
+Option 1:learning rate=0.05, Epochs num=8
+20/20 [==============================] - 1s 29ms/step - loss: 0.4024 - accuracy: 0.8574 - recall: 0.5789 - precision: 0.7165
+Loss of the model is -  0.4023500978946686
+20/20 [==============================] - 1s 27ms/step - loss: 0.4024 - accuracy: 0.8574 - recall: 0.5814 - precision: 0.7194
+Accuracy of the model is -  85.73718070983887 %
+
+
+![image](https://user-images.githubusercontent.com/105777016/178107401-d84cfa60-3218-4f5a-b2d6-9ed9e8a2c301.png)
+
+
+
+Option 2:SGD Learning rate=0.001 Epochs=16
+Loss of the model is -  0.7018033266067505
+20/20 [==============================] - 1s 29ms/step - loss: 0.7018 - accuracy: 0.6250 - recall: 0.2579 - precision: 0.1436
+Accuracy of the model is -  62.5 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107412-053d41e1-37ad-4c15-ba17-08d155dc3e10.png)
+
+
+
+Option 3: SGD Learning rate=0.0001 Epochs =32
+20/20 [==============================] - 1s 29ms/step - loss: 0.6805 - accuracy: 0.6250 - recall: 0.5010 - precision: 0.1450
+Loss of the model is -  0.6805050373077393
+20/20 [==============================] - 1s 27ms/step - loss: 0.6805 - accuracy: 0.6250 - recall: 0.5009 - precision: 0.1452
+Accuracy of the model is -  62.5 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107416-1a54e7f4-f076-4941-8f72-0063449d7cfb.png)
+
+It can be seen that this optimizer (SGD) produces results that do not provide the 90% accuracy threshold, so we will not use it.
+
+
+3.2.3)SGD+Momentum=0.4 +Nesterov=True:
+
+Option 1: learning rate=0.05 epochs=8
+Loss of the model is -  0.4116775393486023
+20/20 [==============================] – 1s 28ms/step – loss: 0.4117 – accuracy: 0.8766 – recall: 0.6306 – precision: 0.7383
+Accuracy of the model is -  87.66025900840759 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107424-1165c58d-9c26-42d4-8dd9-78f9d99e7965.png)
+
+
+
+
+Option 2: learning rate=0.0001 epochs=16
+Loss of the model is -  0.6696860194206238
+20/20 [==============================] – 1s 28ms/step – loss: 0.6697 – accuracy: 0.6250 – recall: 0.4505 – precision: 0.1474
+Accuracy of the model is -  62.5 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107428-796587b5-ea9d-43d4-b4bb-897400bf0d70.png)
+
+
+
+3.2.3)SGD+Momentum=0.8 +Nesterov=True
+
+Option1: learning rate = 0.05 epochs=8
+Loss of the model is -  0.4051578938961029
+20/20 [==============================] – 1s 28ms/step – loss: 0.4052 – accuracy: 0.7965 – recall: 0.5356 – precision: 0.6973
+Accuracy of the model is -  79.64743375778198 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107433-2af49589-4ba2-43e7-9d36-dc84b3a12981.png)
+
+
+Option 2: learning rate = 0.05 epochs= 16
+
+Loss of the model is -  0.696070671081543
+20/20 [==============================] – 1s 31ms/step – loss: 0.6961 – accuracy: 0.6250 – recall: 0.2680 – precision: 0.1466
+Accuracy of the model is -  62.5 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107440-9a38db69-a0ed-483d-bb8b-69cb1d7d5c8a.png)
+
+It can be seen that even using this algorithm (SGD + Momentum) and using Nesterov we were unable to reach a 90% accuracy threshold therefore, we will not use this optimizer.
+
+
+
+3.2.4) Adam:
+Option 1: learning rate=0.05 epochs=16
+Loss of the model is - 0.6952387690544128
+20/20 [==============================] - 1s 29ms/step - loss: 0.6952 - accuracy: 0.6250 - recall: 0.2422 - precision: 0.1590
+Accuracy of the model is - 62.5 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107457-3bb71198-f262-409b-9ba1-039edc7025fa.png)
+
+
+Option 2: learning rate=0.001 epochs=8:
+Loss of the model is - 0.3520313501358032
+20/20 [==============================] – 1s 28ms/step – loss: 0.3520 – accuracy: 0.9087 – recall: 0.7662 – precision: 0.7860
+Accuracy of the model is - 90.86538553237915 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107463-4d02c148-ef3e-4f2e-bd40-a46d97a69e4e.png)
+
+
+
+Option 3: learning rate=0.0001 epochs=32
+Loss of the model is - 0.2995906174182892
+20/20 [==============================] – 1s 28ms/step – loss: 0.2996 – accuracy: 0.9103 – recall: 0.7975 – precision: 0.8006
+Accuracy of the model is - 91.02563858032227 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107467-fe73a4d3-a2a2-4228-9b35-198271cd7ccb.png)
+
+In this optimizer (Adam) we got the best accuracy, it stands at 91.02%. Therefore, we will conclude that our premise is correct that Optimizer Adam is the best.
+
+
+3.2.5) RMSProp
+Loss of the model is - 0.6955061554908752
+20/20 [==============================] - 1s 29ms/step - loss: 0.6955 - accuracy: 0.6250 - recall: 0.2272 - precision: 0.2684
+Accuracy of the model is - 62.5 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107483-c55a202a-ee8f-4415-8115-8065184a2354.png)
+
+Option2: learning rate=0.0001 epochs =16
+Loss of the model is -  0.5227556228637695
+20/20 [==============================] - 1s 29ms/step - loss: 0.5228 - accuracy: 0.8317 - recall: 0.6938 - precision: 0.7694
+Accuracy of the model is -  83.17307829856873 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107492-bbc6476b-a975-4ab5-9309-c29105b5fdd9.png)
+
+
+
+Option 3: learning rate=0.001 epochs=16
+Loss of the model is - 0.3556261360645294
+20/20 [==============================] - 1s 31ms/step - loss: 0.3556 - accuracy: 0.9054 - recall: 0.8099 - precision: 0.8389
+Accuracy of the model is - 90.54487347602844 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107497-d47fdaff-3a92-442b-8c2d-8d4ceccc28ad.png)
+
+Option 4: learning rate=0.001 epochs=8
+Loss of the model is - 0.3095395565032959
+20/20 [==============================] - 1s 27ms/step - loss: 0.3095 - accuracy: 0.8910 - recall: 0.7277 - precision: 0.7822
+Accuracy of the model is - 89.10256624221802 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107503-eef4da11-c254-495a-a3aa-104a71681f19.png)
+
+
+Option 5: learning rate=0.001 epochs=32
+Loss of the model is - 0.3874219059944153
+20/20 [==============================] - 1s 31ms/step - loss: 0.3874 - accuracy: 0.9006 - recall: 0.8508 - precision: 0.8710
+Accuracy of the model is - 90.06410241127014 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107517-891a5129-8449-49c3-ab71-5e660ac89ad4.png)
+
+This optimizer (RMSProp) did not meet the 90% accuracy threshold according to the parameters tested.
+
+
+# (3.3.5) Dropout:
+
+● Dropout - is a mechanism by which some of the neurons are filtered (reset) at random. This makes the model less sensitive. We use this method to prevent Over Fitting. The idea is that if we use an almost complete network we will still cover most of the parameters and therefore the neurons develop a common dependency, which can affect the efficiency of each neuron individually.
+
+![image](https://user-images.githubusercontent.com/105777016/178107566-4f24007f-9fd5-45f3-898e-d4fd65b3604c.png)
+
+
+![image](https://user-images.githubusercontent.com/105777016/178107571-ead84827-8e1c-4ff8-a99c-c1069218d6f2.png)
+
+
+Option 1: dropout=0.1
+20/20 [==============================] - 1s 34ms/step - loss: 0.2978 - accuracy: 0.9038 - recall: 0.7699 - precision: 0.8206
+Loss of the model is -  0.2978477478027344
+20/20 [==============================] - 1s 30ms/step - loss: 0.2978 - accuracy: 0.9038 - recall: 0.7700 - precision: 0.8215
+Accuracy of the model is -  90.38461446762085 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107587-ecf4abbf-e273-42a2-8e9d-cebf54795cc7.png)
+
+
+
+Option 2: dropout=0.2
+20/20 [==============================] - 1s 32ms/step - loss: 0.3578 - accuracy: 0.9022 - recall: 0.7867 - precision: 0.8312
+Loss of the model is -  0.35782647132873535
+20/20 [==============================] - 1s 30ms/step - loss: 0.3578 - accuracy: 0.9022 - recall: 0.7860 - precision: 0.8320
+Accuracy of the model is -  90.22436141967773 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107595-692b461a-ab1e-4b8f-8337-ddf9d3f0c387.png)
+
+
+
+Option 3: Dropout =0.3
+
+20/20 [==============================] - 1s 29ms/step - loss: 0.3332 - accuracy: 0.8942 - recall: 0.7785 - precision: 0.8306
+Loss of the model is -  0.33318087458610535
+20/20 [==============================] - 1s 28ms/step - loss: 0.3332 - accuracy: 0.8942 - recall: 0.7776 - precision: 0.8315
+Accuracy of the model is -  89.42307829856873 %
+
+![image](https://user-images.githubusercontent.com/105777016/178107600-12b2d5f4-06d1-41aa-b629-9c2444b92b7b.png)
+
+
+
+Option 4: Dropout =0.4
+
+20/20 [==============================] - 1s 31ms/step - loss: 0.3126 - accuracy: 0.9135 - recall: 0.7414 - precision: 0.8127
+Loss of the model is - 0.31257596611976624
+20/20 [==============================] - 1s 28ms/step - loss: 0.3126 - accuracy: 0.9135 - recall: 0.7416 - precision: 0.8137
+Accuracy of the model is - 91.34615659713745 %
+
+
+![image](https://user-images.githubusercontent.com/105777016/178107605-fde828e9-5b34-4f56-b70a-3b28acaff244.png)
+
+
+conclusion:
+It can be seen that adding a Dropout that weighs 0.4 causes for the best (accurate) performance.
+
 
 
 
